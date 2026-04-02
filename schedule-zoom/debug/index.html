@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Debug - Click Tracker</title>
+<script src="/config.js"></script>
+<style>
+  body { font-family: monospace; padding: 20px; background: #1a1a2e; color: #0f0; }
+  pre { white-space: pre-wrap; }
+  .ok { color: #0f0; }
+  .fail { color: #f00; }
+</style>
+</head>
+<body>
+<h2>Click Tracker Debug</h2>
+<pre id="log"></pre>
+<script>
+var log = document.getElementById("log");
+function out(msg, ok) {
+  var span = document.createElement("span");
+  span.className = ok ? "ok" : "fail";
+  span.textContent = msg + "\n";
+  log.appendChild(span);
+}
+
+out("1. config.js loaded: " + (typeof window._hds_webhook !== "undefined"));
+out("2. webhook URL: " + (window._hds_webhook || "(empty/undefined)"));
+
+if (!window._hds_webhook) {
+  out("STOP: No webhook URL. config.js failed to load.", false);
+} else {
+  out("3. Fetching ipinfo.io...");
+  fetch("https://ipinfo.io/json")
+    .then(function(r) { return r.json(); })
+    .then(function(geo) {
+      out("4. Got geo: " + geo.city + ", " + geo.region + ", " + geo.country);
+      var payload = {
+        id: "debug-test",
+        name: "Debug Test",
+        ip: geo.ip || "",
+        city: geo.city || "",
+        region: geo.region || "",
+        country: geo.country || "",
+        loc: geo.loc || "",
+        org: geo.org || "",
+        timezone: geo.timezone || "",
+        ts: new Date().toISOString(),
+        ua: navigator.userAgent
+      };
+      out("5. Sending to webhook...");
+      return fetch(window._hds_webhook, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload)
+      });
+    })
+    .then(function(r) {
+      out("6. Webhook response type: " + r.type + " status: " + r.status);
+      out("DONE. Check your Google Sheet Clicks tab.", true);
+    })
+    .catch(function(e) {
+      out("ERROR: " + e.message, false);
+    });
+}
+</script>
+</body>
+</html>
