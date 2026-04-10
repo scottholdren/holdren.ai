@@ -5,7 +5,7 @@ date: 2026-04-10
 description: "Two different paths to solving the same plate-solving problem — one with domain expertise, one without."
 ---
 
-My friend <a href="https://quietlife.net/2026/04/08/platesolving-for-fun-and-no-profit/">cwage</a> wrote about solving an Artemis II photo using plate solving—identifying which stars and celestial objects are visible in a photo of the Moon with the Sun behind it. His post documents how he used Claude Code to walk through the problem, hit a wall (the parity issue—FITS coordinate systems vs. JPEG coordinate systems), and then steered Claude through the solution once he recognized what was wrong.
+My friend <a href="https://quietlife.net/2026/04/08/platesolving-for-fun-and-no-profit/">cwage</a> wrote about analyzing an Artemis II photo using plate solving—identifying which stars and celestial objects are visible in a photo of the Moon with the Sun behind it. His post documents how he used Claude Code to walk through the problem, hit a wall (the parity issue—FITS coordinate systems vs. JPEG coordinate systems), and then steered Claude through the solution once he recognized what was wrong.
 
 I was curious - could I solve the same problem with Claude but no domain knowledge? I didn't know what parity was. I had never heard of plate solving. I just gave Claude the image and asked it to identify the 10 brightest celestial bodies and annotate the image. Here's what happened when I let Claude navigate completely blind.
 
@@ -19,6 +19,8 @@ I was curious - could I solve the same problem with Claude but no domain knowled
 Claude's initial instinct was to build a plate solver from scratch. It used the skyfield library to compute where stars should be. It built custom scripts to detect bright spots in the image. It tried to match them against star catalogs using rotation scanning and source extraction.
 
 For over 30 minutes, it kept iterating. It tried different extraction heuristics. It tested different FOV estimates. It rotated through different rotation angles. Nothing converged. It blamed the corona glow—that bright halo around the Moon—for contaminating every source extraction attempt. It fixed angular separation calculation bugs. It tried different Moon detection methods. It tweaked brightness thresholds.
+
+Several times it asked me for additional context.  I told it I had nothing to go on except the photo.
 
 Finally it presented a solution. Unfortunately it was incorrect, so I sent it back to work.
 
@@ -46,7 +48,7 @@ That sounded reasonable. I did it.
   <figcaption>Claude's original mask. Doomed from the start.</figcaption>
 </figure>
 
-I uploaded the masked image Claude had generated. nova.astrometry.net returned: job failed.
+I uploaded the masked image Claude had generated. nova.astrometry.net returned: <a href="https://nova.astrometry.net/user_images/15025640">job failed</a>.
 
 Claude's response was straightforward: "That's unfortunate but not surprising — the corona glow probably defeated their source extractor too."
 
@@ -62,7 +64,7 @@ The mask had been too aggressive—gray > 35 as the glow threshold ended up mask
 
 Here's where I diverged: instead of uploading Claude's newly improved masked version, I just uploaded the original unmasked image to astrometry.net.
 
-It worked.
+<a href="https://nova.astrometry.net/user_images/15025711">It worked</a>.
 
 I got back a FITS WCS file with real coordinates: RA=8.4°, Dec=8.4°, pixel scale=106.5"/px, rotation=-173°, FOV=56.8°×37.9°.
 
@@ -85,7 +87,7 @@ The final output was 10 stars with proper names and labels in the right spots.
 
 Chris's approach was different. He recognized the parity problem—that JPEG images have their origin at the top-left with y pointing down, while FITS coordinate systems put the origin at the bottom-left with y pointing up. This flips the handedness of the coordinate system. He saw where Claude was heading with its manual rotation scanning and steered it away from that wall before it wasted hours discovering parity through trial and error.
 
-I didn't see that wall coming. Instead I let Claude bang its head on the wall for a few hours. Eventually it suggested using external tools that required my help. I did what it asked and Claude was able to complete the rest.
+I didn't see that wall coming. Instead I let Claude bang its head on the wall for a few hours. Eventually it suggested using external tools that required my input. I did what it asked and Claude was able to complete the rest.
 
 Neither approach required expertise to solve the problem. But Chris's approach prevented wasted effort and stayed local. Mine required burning lots of tokens and eventually doing some legwork that Claude couldn't.
 
