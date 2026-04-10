@@ -9,6 +9,11 @@ My friend Chris wrote about solving an Artemis eclipse photo using plate solving
 
 I solved the same problem differently. I didn't know what parity was. I didn't know anything about plate solving. I just gave Claude the image and asked it to identify the 10 brightest celestial bodies (excluding the Moon), label them by type, and annotate the image. Here's what happened when I let Claude navigate completely blind.
 
+<figure>
+  <img src="/assets/posts/platesolving/art002e009301~large.jpg" alt="The original Artemis eclipse photo — the Moon surrounded by the Sun's corona, with faint stars scattered in the background.">
+  <figcaption>The original image. Moon, corona, and a scattering of stars hiding in the glow.</figcaption>
+</figure>
+
 ## The First 30+ Minutes of Local Solving
 
 Claude's initial instinct was to build a plate solver from scratch. It used the skyfield library to compute where planets should be. It built custom scripts to detect bright spots in the image. It tried to match them against star catalogs using rotation scanning and source extraction.
@@ -33,6 +38,11 @@ Claude's response was straightforward: "That's unfortunate but not surprising �
 
 Then it suggested: try the original unmasked image instead. But before I could test that, Claude tried to fix the masking itself—it generated what it thought was a better masked version, still targeting astrometry.net.
 
+<figure>
+  <img src="/assets/posts/platesolving/masked_eclipse.jpg" alt="Claude's second masking attempt — almost the entire frame is black, with only a sliver of sky visible. The stars have been masked out along with the corona.">
+  <figcaption>Claude's "improved" mask. The glow threshold was too aggressive — it masked out almost everything, stars included.</figcaption>
+</figure>
+
 I looked at what Claude produced and said: "Your masking job just came out as a black file. There's no stars apparent in there at all."
 
 Claude acknowledged the bug. The mask had been too aggressive—gray > 35 as the glow threshold ended up masking almost everything, including the actual stars. It generated yet another improved masked version, this time just a black circle over the Moon/corona center with all the stars preserved.
@@ -54,6 +64,11 @@ Now Claude had something concrete to work with. It used the WCS coordinates to i
 It focused on the stars instead. It downloaded HD and HIP reference catalogs from astrometry.net. It fixed the star name lookups by cross-referencing positions instead of relying on a broken HIP ID table. It widened the peak detection radius to catch Hamal, which was just outside the measurement window. It fine-tuned the background estimation for bright stars.
 
 The final output was 10 stars with proper names, pixel-perfect accuracy.
+
+<figure>
+  <img src="/assets/posts/platesolving/annotated_eclipse.jpg" alt="The final annotated eclipse photo with 10 bright stars labeled by name around the eclipsed Moon.">
+  <figcaption>The final annotated result. Ten stars identified by name, each within a pixel of its catalog position.</figcaption>
+</figure>
 
 ## The Contrast with Chris
 
