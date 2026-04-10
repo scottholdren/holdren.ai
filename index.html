@@ -1,12 +1,39 @@
 ---
 layout: default
-title: Writing
+title: Scott Holdren
+description: Engineering leader in the NYC metro. Projects, past and current.
 ---
-<ul class="post-list">
-{% for post in site.posts %}
-  <li>
-    <span class="date">{{ post.date | date: "%B %-d, %Y" }}</span>
-    <a class="title" href="{{ post.url }}">{{ post.title }}</a>
-  </li>
-{% endfor %}
-</ul>
+<section class="bio">
+  <p>I'm Scott. Engineering leader in the NYC metro. I like building things, running teams that build things, pinball machines, and smoked meat.</p>
+  <p class="availability"><em>Open to new projects — <a href="mailto:scott@holdren.com">scott@holdren.com</a></em></p>
+</section>
+
+<section class="projects">
+  <h2>Current</h2>
+  <ul class="project-list">
+    <li>
+      <a class="project-title" href="https://rolepoly.ai">Rolepoly</a>
+      <p>Tailors your resume to the role you're actually applying for.</p>
+    </li>
+    <li>
+      <a class="project-title" href="/2026/04/10/platesolving-without-domain-knowledge/">Platesolving an Eclipse Photo</a>
+      <p>Solving a NASA Artemis eclipse shot with Claude and no domain knowledge.</p>
+    </li>
+    <li>
+      <a class="project-title" href="https://github.com/scottholdren/seeburg-autoplay">Seeburg Autoplay</a>
+      <p>Arduino firmware and hardware that teaches an old Seeburg jukebox to shuffle.</p>
+    </li>
+  </ul>
+
+  <h2>Past</h2>
+  <ul class="project-list">
+    <li>
+      <a class="project-title" href="https://raventools.com">Raven Tools</a>
+      <p>Marketing automation platform. Co-founder. Acquired by TapClicks.</p>
+    </li>
+    <li>
+      <a class="project-title" href="https://www.instagram.com/noquarternash/">No Quarter</a>
+      <p>Pinball bar I co-founded in Nashville.</p>
+    </li>
+  </ul>
+</section>
