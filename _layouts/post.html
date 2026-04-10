@@ -3,8 +3,9 @@ layout: default
 ---
 <article>
   <h1>{{ page.title }}</h1>
-  <div class="post-meta">{{ page.date | date: "%B %-d, %Y" }}</div>
+  <p><em>{{ page.date | date: "%B %-d, %Y" }}</em></p>
   {{ content }}
 </article>
+
 <hr>
-<p><a href="/">← All projects</a></p>
+<p><a href="/">&larr; All projects</a></p>

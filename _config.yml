@@ -1,7 +1,9 @@
 title: Scott Holdren
-description: Notes and writing by Scott Holdren.
+description: Engineering leader in the NYC metro. Projects, past and current.
 url: https://holdren.ai
 author: Scott Holdren
+
+theme: jekyll-theme-tactile
 
 permalink: /:year/:month/:day/:title/
 
