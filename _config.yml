@@ -1,0 +1,22 @@
+title: Scott Holdren
+description: Notes and writing by Scott Holdren.
+url: https://holdren.ai
+author: Scott Holdren
+
+permalink: /:year/:month/:day/:title/
+
+# Keep existing redirect pages and tooling untouched
+keep_files:
+  - schedule-zoom
+  - config.js
+  - google-apps-script.js
+  - setup.html
+  - DEPLOY.md
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+markdown: kramdown
